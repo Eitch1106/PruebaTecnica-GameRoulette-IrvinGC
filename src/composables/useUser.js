@@ -25,6 +25,7 @@ export const useLogin = () => {
         isNew,
 
         login,
-        logout
+        logout,
+        updateAmount
     }
 }

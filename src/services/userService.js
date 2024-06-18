@@ -13,5 +13,5 @@ export const createUser = async (name) => {
 };
 
 export const updateUser = async (name, amount) => {
-    return await api.put(`/User/${name}`,{ saldo : amount });
+    return await api.put(`/User/${name}`,{ name, saldo : amount });
 };

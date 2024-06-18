@@ -17,7 +17,6 @@ import Tooltip from 'primevue/tooltip';
 
 const app = createApp(App)
 
-app.use(createPinia())
 app.use(router)
 app.use(ToastService);
 
@@ -25,6 +24,7 @@ app.use(PrimeVue, {
     unstyled: true,
     pt: Lara
 });
+app.use(createPinia())
 
 app.component('Button', Button)
 app.component('InputText', InputText)

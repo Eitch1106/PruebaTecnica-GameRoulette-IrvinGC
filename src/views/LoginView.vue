@@ -4,11 +4,13 @@ import Joi from 'joi';
 import DefaultHeader from '@/components/DefaultHeader.vue';
 import { useLogin } from '@/composables/useUser';
 import { useRouter } from 'vue-router';
+import DefaultLoader from '@/components/DefaultLoader.vue';
 
 const name = ref('');
 const errors = ref([]);
 const { user, isAuthenticated, login } = useLogin();
 const router = useRouter();
+const loadingButton = ref(false)
 
 const schema = Joi.object({
   name: Joi.string().pattern(/^[a-zA-Z\s]+$/).min(3).max(30).required().messages({
@@ -35,16 +37,18 @@ watch(name, validateName);
 const handleSubmit = async () => {
   validateName();
   if (errors.value.length === 0) {
+    loadingButton.value = true
     user.value.name = name.value;
     await login();
     if (isAuthenticated.value) {
+      loadingButton.value = false
       router.push({ name: 'main' });
     }
     else {
+      loadingButton.value = false
       console.log('Authentication failed');
     }
   }
-
 };
 </script>
 
@@ -63,5 +67,6 @@ const handleSubmit = async () => {
         </ul>
       </div>
     </div>
+    <DefaultLoader v-if="loadingButton"/>
   </div>
 </template>

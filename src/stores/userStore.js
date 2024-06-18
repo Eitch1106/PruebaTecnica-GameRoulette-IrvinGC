@@ -5,11 +5,12 @@ export const userStore = defineStore('user', {
   state: () => ({
     user: {
       name: '',
-      amount: 0,},
+      amount: 0},
     loading: false,
     isAuthenticated: false,
     isNew: true,
     error: null,
+    amountNew: 0
   }),
   actions: {
     async login() {
@@ -17,9 +18,9 @@ export const userStore = defineStore('user', {
       this.error = null;
       try {
         const response = await getUserById(this.user.name);
-        if (response.data) {
+        if (response) {
           this.user.name = response.data.name;
-          this.user.amount = response.data.amount;
+          this.user.amount = response.data.saldo;
           this.isAuthenticated = true;
           this.isNew = false;
         } else {
@@ -43,13 +44,15 @@ export const userStore = defineStore('user', {
   },
     logout() {
       this.isAuthenticated = false,
-      this.user = { name: '', amount: 0},
-      this.isNew = true
+      this.user = { name: '', amount: 0 },
+      this.isNew = true,
+      this.amountNew= 0
     },
    async updateSaldo() {
     try{
-        const response = await updateUser( this.user.name, this.user.amount );
-        this.user.amount = response.data.amount;
+        const response = await updateUser( this.user.name, this.amountNew );
+        this.user.amount = response.data.saldo;
+        
     }
     catch(err){
       console.log(err);
